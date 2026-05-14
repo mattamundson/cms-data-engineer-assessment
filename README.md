@@ -14,6 +14,7 @@ Outputs CSVs to `./output/{identifier}.csv` and tracks per-dataset modified date
 
 - **Incremental loads** via per-dataset `modified` comparison (not a global last-run timestamp). Self-healing: delete `state.json` for a clean rebuild; delete a single key to force one dataset to re-pull.
 - **Parallelism** via `ThreadPoolExecutor` (I/O-bound work; threads are the right tool). Capped at 4 workers — CMS rate-limits aggressive parallel requests.
+- **Atomic writes**: download → .download, transform → .tmp, then os.replace to final path. Same pattern for state.json
 - **Streamed downloads** with `iter_content` (auto-handles gzip Content-Encoding).
 - **Header transformation only**: data rows pass through unchanged via `csv.reader`/`csv.writer`, so memory use is constant regardless of file size.
 - **Failure isolation**: one dataset's exception doesn't abort the rest; state only updates for successful downloads, so failures auto-retry on the next run.
