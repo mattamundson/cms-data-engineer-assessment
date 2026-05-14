@@ -1,4 +1,4 @@
-CMS Hospitals Sync
+CMS Hospitals Assessment 
 
 Downloads all CSV datasets tagged with theme "Hospitals" from the CMS provider-data metastore, converts CSV headers to snake_case, and tracks state so daily re-runs only download what's changed.
 
